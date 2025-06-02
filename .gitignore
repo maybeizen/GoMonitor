@@ -3,3 +3,5 @@ dist
 *.sum
 .env
 .env.*
+.idea
+go.sum
