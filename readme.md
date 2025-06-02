@@ -20,7 +20,7 @@ A simple, lightweight monitoring agent written in Go.
 1. **Clone the repo**:
 
 ```bash
-   git clone https://github.com/your-org/go-monitor
+   git clone https://github.com/maybeizen/monitor
    cd go-monitor
 ````
 
