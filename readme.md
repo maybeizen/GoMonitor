@@ -26,21 +26,21 @@ A simple, lightweight monitoring agent written in Go.
 
 2. **Install dependencies**:
 
-   ```bash
+```bash
    go mod tidy
-   ```
+```
 
 3. **Build and run the monitor**:
 
-    ```bash
+```bash
    go run ./src/main/main.go
-   ```
+```
 
 
 ## Project Structure
 
 ```
-go-monitor/
+monitor/
 ├── data/               # JSON output written here
 ├── src/
 │   ├── main.go         # Entry point
