@@ -1,5 +1,7 @@
 data
 dist
+bin
+out
 *.sum
 .env
 .env.*

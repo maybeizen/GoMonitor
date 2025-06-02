@@ -1,98 +1,126 @@
 # Go Monitor
 
-A simple, lightweight monitoring agent written in Go.
-
-> [!WARNING]
-> **Early Development Notice**:
-> This tool is in active development. Expect breaking changes before v1.0.0.
+A cross-platform system monitoring tool written in Go that collects system information and can output to files or API endpoints.
 
 ## Features
 
-- System hostname, OS, and platform info
-- CPU info (model, usage %, core count)
-- Memory usage (total, used, percent)
-- Disk usage per mountpoint
-- Total running processes
-- Cross-platform support (Linux, macOS, Windows)
+- Collects detailed system information:
 
-## Setup
+  - CPU usage and details
+  - Memory usage
+  - Disk usage for all mounted volumes
+  - System load (Unix/Linux)
+  - Process count
+  - Host information
 
-1. **Clone the repo**:
+- Multiple output options:
+
+  - JSON file output
+  - API endpoint (POST/PUT/PATCH)
+  - Optional compression
+
+- Cross-platform support:
+  - Windows
+  - Linux
+  - macOS
+
+## Installation
+
+### Prerequisites
+
+- Go 1.18 or newer
+
+### Building from source
+
+1. Clone the repository
+2. Run `make deps` to install dependencies
+3. Run `make build` to build the application
+
+The binary will be created in the `bin` directory.
+
+## Usage
+
+Run the monitor with the default configuration:
 
 ```bash
-   git clone https://github.com/maybeizen/monitor
-   cd go-monitor
-````
+# Linux/macOS
+./bin/monitor
 
-2. **Install dependencies**:
-
-```bash
-   go mod tidy
+# Windows
+bin\monitor.exe
 ```
 
-3. **Build and run the monitor**:
+### Configuration
 
-```bash
-   go run ./src/main/main.go
-```
+Configuration is stored in `config.json`. The default configuration will be created if the file doesn't exist.
 
-
-## Project Structure
-
-```
-monitor/
-├── data/               # JSON output written here
-├── src/
-│   ├── main.go         # Entry point
-│   ├── utils.go        # Collection & file writing logic
-│   └── models.go       # Structs for JSON structure
-├── go.mod
-└── README.md
-```
-
-
-## Output Example
+#### Configuration Options
 
 ```json
 {
-  "hostname": "my-server",
-  "os": "linux",
-  "platform": "ubuntu",
-  "cpu": {
-    "model_name": "Intel(R) Xeon(R)",
-    "vendor_id": "GenuineIntel",
-    "cores": 8,
-    "mhz": 2400,
-    "usage_percent": 12.3
-  },
-  "memory": {
-    "total_bytes": 16777216000,
-    "used_bytes": 8452346880,
-    "used_percent": 50.35
-  },
-  "disks": [
+  "monitor_interval": 3,
+  "outputs": [
     {
-      "mountpoint": "/",
-      "total_bytes": 256000000000,
-      "used_bytes": 128000000000,
-      "used_percent": 50.0
+      "type": "file",
+      "file_path": "data/data.json"
+    },
+    {
+      "type": "api",
+      "api_url": "http://example.com/api/metrics",
+      "api_method": "POST",
+      "api_key": "your-api-key"
     }
   ],
-  "process_count": 187,
-  "timestamp": "2025-06-01T12:00:00Z"
+  "log_level": "info",
+  "include_networks": true,
+  "include_processes": true,
+  "max_process_count": 1000,
+  "enable_compression": false
 }
 ```
 
-## TODO
+- `monitor_interval`: How often to collect system information, in seconds
+- `outputs`: Array of output configurations
+  - File output:
+    - `type`: "file"
+    - `file_path`: Path to write the JSON data
+  - API output:
+    - `type`: "api"
+    - `api_url`: URL of the API endpoint
+    - `api_method`: HTTP method (POST, PUT, PATCH)
+    - `api_key`: Optional API key for authentication
+- `log_level`: Logging level (info, debug, warning, error)
+- `include_networks`: Whether to collect network interface statistics
+- `include_processes`: Whether to collect process count
+- `max_process_count`: Maximum number of processes to count
+- `enable_compression`: Whether to enable compression for file output (appends .gz to filename)
 
-* [ ] Add network interface stats
-* [ ] Optional JSON compression
-* [ ] Send data to remote API
-* [ ] Expose as REST or WebSocket server
-* [ ] Add system uptime and user session count
+## Development
+
+### Project Structure
+
+```
+monitor/
+├── models/          # Data models
+├── utils/           # Utility functions
+│   ├── collectors/  # System information collectors
+│   └── outputs/     # Output handlers
+├── config.json      # Configuration file
+├── go.mod           # Go module definition
+├── main.go          # Main application entry point
+└── Makefile         # Build automation
+```
+
+### Makefile Commands
+
+- `make build`: Build the application
+- `make clean`: Remove built binaries
+- `make run`: Run the application
+- `make deps`: Install dependencies
+- `make test`: Run tests
+- `make release`: Build optimized release binary
+- `make config-api`: Create a sample config file with API endpoint
 
 ## License
 
-MIT – use freely, modify openly.
-
-Made with ❤️ by maybeizen
+MIT

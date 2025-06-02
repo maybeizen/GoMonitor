@@ -1,0 +1,14 @@
+{
+  "monitor_interval": 3,
+  "outputs": [
+    {
+      "type": "file",
+      "file_path": "data/data.json"
+    }
+  ],
+  "log_level": "info",
+  "include_networks": true,
+  "include_processes": true,
+  "max_process_count": 1000,
+  "enable_compression": false
+}
