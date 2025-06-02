@@ -2,8 +2,8 @@
 
 A lightweight, cross-platform system monitoring tool that collects system information and can output to files or API endpoints.
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/maybeizen/GoMonitor)
-![License](https://img.shields.io/github/license/maybeizen/GoMontior)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/maybeizen/gomonitor)
+![License](https://img.shields.io/github/license/maybeizen/gomonitor)
 
 ## Features
 
