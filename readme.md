@@ -2,9 +2,9 @@
 
 A simple, lightweight monitoring agent written in Go.
 
-> **Work In Progress**  
-> This project is actively being developed. Expect bugs, rapid changes, and evolving features.  
-> Use it for internal testing and experimentation until a stable release is tagged.
+> [!WARNING]
+> **Early Development Notice**:
+> This tool is in active development. Expect breaking changes before v1.0.0.
 
 ## Features
 
