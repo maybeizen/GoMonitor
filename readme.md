@@ -1,126 +1,90 @@
-# Go Monitor
+# GoMonitor
 
-A cross-platform system monitoring tool written in Go that collects system information and can output to files or API endpoints.
+A lightweight, cross-platform system monitoring tool that collects system information and can output to files or API endpoints.
+
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/maybeizen/GoMonitor)
+![License](https://img.shields.io/github/license/maybeizen/GoMontior)
 
 ## Features
 
-- Collects detailed system information:
-
+- **Cross-Platform**: Works on Windows, Linux, and macOS
+- **Detailed System Information**:
   - CPU usage and details
   - Memory usage
   - Disk usage for all mounted volumes
+  - Network interface statistics
   - System load (Unix/Linux)
   - Process count
-  - Host information
-
-- Multiple output options:
-
-  - JSON file output
-  - API endpoint (POST/PUT/PATCH)
+- **Multiple Output Options**:
+  - Save to JSON files
+  - Send to REST API endpoints
   - Optional compression
 
-- Cross-platform support:
-  - Windows
-  - Linux
-  - macOS
+## Download
 
-## Installation
+Download the latest release for your platform from the [Releases page](https://github.com/maybeizen/gomonitor/releases).
 
-### Prerequisites
+Available platforms:
 
-- Go 1.18 or newer
+- Windows (x64 and x86)
+- Linux (x64 and ARM64)
+- macOS (Intel and Apple Silicon)
 
-### Building from source
+## Quick Start
 
-1. Clone the repository
-2. Run `make deps` to install dependencies
-3. Run `make build` to build the application
-
-The binary will be created in the `bin` directory.
-
-## Usage
-
-Run the monitor with the default configuration:
+1. Download the appropriate zip file for your platform
+2. Extract the zip file
+3. Run the monitor executable:
 
 ```bash
-# Linux/macOS
-./bin/monitor
-
 # Windows
-bin\monitor.exe
+gomonitor-1.0.0-windows-amd64.exe
+
+# Linux/macOS
+chmod +x gomonitor-1.0.0-linux-amd64  # Make executable first
+./gomonitor-1.0.0-linux-amd64
 ```
 
-### Configuration
+On first run, a default `config.json` file will be created.
 
-Configuration is stored in `config.json`. The default configuration will be created if the file doesn't exist.
+## Configuration
 
-#### Configuration Options
+The monitor uses a `config.json` file in the same directory as the executable. Edit this file to:
+
+- Change the monitoring frequency
+- Configure where to save the data
+- Set up API endpoints
+- Enable/disable certain collectors
+
+Example config for saving to a file and sending to an API:
 
 ```json
 {
-  "monitor_interval": 3,
+  "monitor_interval": 10,
   "outputs": [
     {
       "type": "file",
-      "file_path": "data/data.json"
+      "file_path": "data/system-stats.json"
     },
     {
       "type": "api",
-      "api_url": "http://example.com/api/metrics",
+      "api_url": "https://your-monitoring-api.com/metrics",
       "api_method": "POST",
       "api_key": "your-api-key"
     }
   ],
-  "log_level": "info",
-  "include_networks": true,
-  "include_processes": true,
-  "max_process_count": 1000,
-  "enable_compression": false
+  "include_networks": true
 }
 ```
 
-- `monitor_interval`: How often to collect system information, in seconds
-- `outputs`: Array of output configurations
-  - File output:
-    - `type`: "file"
-    - `file_path`: Path to write the JSON data
-  - API output:
-    - `type`: "api"
-    - `api_url`: URL of the API endpoint
-    - `api_method`: HTTP method (POST, PUT, PATCH)
-    - `api_key`: Optional API key for authentication
-- `log_level`: Logging level (info, debug, warning, error)
-- `include_networks`: Whether to collect network interface statistics
-- `include_processes`: Whether to collect process count
-- `max_process_count`: Maximum number of processes to count
-- `enable_compression`: Whether to enable compression for file output (appends .gz to filename)
+## Windows Users
 
-## Development
+For complete disk information, you may need to run the monitor as Administrator.
 
-### Project Structure
+## For Developers
 
-```
-monitor/
-├── models/          # Data models
-├── utils/           # Utility functions
-│   ├── collectors/  # System information collectors
-│   └── outputs/     # Output handlers
-├── config.json      # Configuration file
-├── go.mod           # Go module definition
-├── main.go          # Main application entry point
-└── Makefile         # Build automation
-```
-
-### Makefile Commands
-
-- `make build`: Build the application
-- `make clean`: Remove built binaries
-- `make run`: Run the application
-- `make deps`: Install dependencies
-- `make test`: Run tests
-- `make release`: Build optimized release binary
-- `make config-api`: Create a sample config file with API endpoint
+If you want to build from source or contribute to the project, see [DEVELOPING.md](DEVELOPING.md).
 
 ## License
 
-MIT
+[MIT](license)
